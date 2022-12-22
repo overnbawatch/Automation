@@ -65,7 +65,7 @@ def heal_event(dr):
 
 def boss_attack_event(dr):
     boss_name = dr.find_element(by=By.XPATH, value='//*[@id="content"]/h1').text
-    if '赤犬' in boss_name or 'ﾃｨｰﾁ' in boss_name:
+    if '赤犬' in boss_name or 'ﾃｨｰﾁ' in boss_name or 'ﾋﾞｯｸﾞ･ﾏﾑ' in boss_name or '白ひげ' in boss_name:
         logger.info('atack boss -> Blackbeard')
         dr.find_element(by=By.XPATH, value='//*[@id="content"]/div[5]/section/ol[1]/li[5]').click()
         dr.find_element(by=By.XPATH, value='//*[@id="bossAttack"]').click()
@@ -86,7 +86,8 @@ def check_reward(dr):
 
 
 def battle(dr):
-    check_reward(dr)
+    if not extra_time:
+        check_reward(dr)
 
     # get initial data
     if extra_time:
@@ -142,11 +143,11 @@ def extra_boss(dr):
         # dr.find_element(by=By.XPATH, value='//*[@id="action-support-3"]/div[1]/div').click()
         # time.sleep(0.5)
         # 2%
-        dr.find_element(by=By.XPATH, value='//*[@id="action-support-4"]/div[1]/div').click()
-        time.sleep(0.5)
-        # 3%
-        # dr.find_element(by=By.XPATH, value='//*[@id="action-support-5"]/div[1]/div').click()
+        # dr.find_element(by=By.XPATH, value='//*[@id="action-support-4"]/div[1]/div').click()
         # time.sleep(0.5)
+        # 3%
+        dr.find_element(by=By.XPATH, value='//*[@id="action-support-5"]/div[1]/div').click()
+        time.sleep(0.5)
 
 
 driver = login()
@@ -156,9 +157,9 @@ while True:
         driver.get('http://onepi.sp.mbga.jp/_onepi_event500_lstd_top')
         # extra_stage = len(driver.find_elements(by=By.XPATH, value='//*[@id="content"]/div[3]/div[4]/div[1]/div[1]'))
         # if extra_stage > 0:
-        #    extra_boss(driver)
+        extra_boss(driver)
         # else:
-        battle(driver)
-        time.sleep(0.5)
+        #battle(driver)
+        #time.sleep(0.5)
     except:
         logger.error('Error')
